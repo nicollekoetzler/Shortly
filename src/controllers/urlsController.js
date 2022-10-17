@@ -29,3 +29,28 @@ export async function postUrl (req, res){
         res.sendStatus(500);
     }
 }
+
+export async function getUrlId (req, res) {
+
+    const id = req.params.id;
+  
+    try {
+        const { rows: urlData } = await db.query(
+            `SELECT id, "shortUrl", url FROM urls WHERE id = $1`,
+            [id]
+        )
+
+        if(urlData.length === 0){
+            return res.status(404).send("Url não encontrada")
+        }
+
+        res.status(200).send(urlData);
+  
+    }catch (err) {
+      return res.status(500).send(err);
+    }
+  } 
+
+export async function getShortUrl () {
+
+}
